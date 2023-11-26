@@ -1,10 +1,11 @@
 import Header  from "../components/Header";
 
-export default function Home() {
+
+export default function SignUp() {
     return (
       <>
         <Header/>
-        <h2>Home page</h2>
+        <h2>About page</h2>
       </>
     );
   }

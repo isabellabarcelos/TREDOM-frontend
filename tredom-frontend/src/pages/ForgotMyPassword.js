@@ -1,11 +1,10 @@
 import Header  from "../components/Header";
 
-
-export default function About() {
+export default function ForgotMyPassword() {
     return (
       <>
         <Header/>
-        <h2>About page</h2>
+        <h2>Contact page</h2>
       </>
     );
   }

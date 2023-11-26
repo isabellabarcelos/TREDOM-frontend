@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400&display=swap');
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #f5f5f5;
+    font-family: 'Poppins', sans-serif;
+  }
+
+input:focus {
+  outline: none;
+}
+.login-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 450px;
+  width: 700px;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px #c5c5c5; /* Efeito de sombra */
+}
+  
+.welcome-section,
+.login-section {
+  height: 100%;
+}
+.email-input{
+    font-family: 'Poppins', sans-serif;
+    border-radius: 12px;
+    border: 1px solid #c5c5c5;
+    font-size: 12px;
+    padding: 7px;
+    width: 205px;
+    font-weight: 500;
+    color: #1E2431
+
+}
+.email-input:focus {
+    border: 2px solid #0C7265; /* Cor da borda quando focado */
+    /* Outros estilos que você deseja aplicar quando o input está focado */
+}
+
+
+.welcome-section {
+    width: 39%;
+    text-align: center;
+    background-color: #51B89E;
+    border-radius: 10px 0 0 10px;
+    color: #FFFFFF;/* Escolhendo o peso da fonte (100 - ultra light) */
+  }
+.welcome-message{
+    font-size: 14px;
+    padding-left: 37px;
+    padding-right: 15px;
+    padding-top: 100px;
+    font-weight: 500;
+    text-align: left;
+}
+.register-message{
+    font-size: 13.5px;
+    padding-top: 170px;
+    font-weight: 400;
+    padding-left: 50px;
+    padding-right: 50px;
+    text-align: left;
+}
+.register-section button{
+    border-radius: 100px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-top: 10px;
+    font-size: 18px;
+    border: 1px solid #FFFFFF;
+    background-color: #51B89E;
+    color: #FFFFFF;
+    font-weight: 300; 
+}
+
+.register-section button:hover{
+   background-color: #0C7265;
+}
+.login-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza os itens horizontalmente */
+    justify-content: center; /* Centraliza os itens verticalmente */
+    width: 61%;
+    margin: 0 auto; /* Centraliza horizontalmente */
+    height: 100vh; /* Ajuste a altura conforme necessário */
+  }
+.login-section form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-section label,
+.login-section input {
+  margin: 8px 0;
+}
+
+.login-section button {
+  border-radius: 100px;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-top: 10px;
+  font-size: 18px;
+  border: 1px solid #FFFFFF;
+  background-color: #51B89E;
+  color: #FFFFFF;
+  font-weight: 300; 
+}
+
+.login-section button:hover {
+    background-color: #0C7265;
+  }
+
+
+.login-section-button {
+    align-self: center;
+    margin-top: 30px;
+}
+.logo-img {
+    width: 55%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top:-20px;
+  }
+  
+.logo-image {
+width: 100%;
+height: 100%;
+object-fit: contain; /* Mantém a proporção da imagem */
+}
+
+.login-title{
+    color: #DA7E6C;
+    font-weight: 400;
+    margin-top: -20px;
+}
+
+.forgot-password-link{
+    color:#0C7265;
+    font-size: 11px;
+    font-weight: 600;
+    align-content: end;
+    padding: 0;
+    margin-right: 5px;
+    text-align: right;
+    width: fit-content;
+    align-self: flex-end;
+}
+.forgot-password-link:hover{
+    color:#51B89E;
+}
