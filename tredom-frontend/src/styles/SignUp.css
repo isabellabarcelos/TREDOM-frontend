@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400&display=swap');
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #f5f5f5;
+  font-family: 'Poppins', sans-serif;
+}
+
+input:focus {
+  outline: none;
+}
+.signup-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  width: 650px;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px #c5c5c5; /* Efeito de sombra */
+}
+  
+.welcome-section,
+.signup-section {
+  height: 100%;
+}
+
+.signup-title {
+  font-size: 13px;
+  margin-bottom: 20px;
+  }
+.email-input{
+  font-family: 'Poppins', sans-serif;
+  border-radius: 12px;
+  border: 1px solid #c5c5c5;
+  font-size: 12px;
+  padding: 7px;
+  width: 205px;
+  font-weight: 500;
+  color: #1E2431;
+}
+.email-input:focus {
+  border: 2px solid #0C7265; /* Cor da borda quando focado */
+  /* Outros estilos que você deseja aplicar quando o input está focado */
+}
+
+.signup-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centraliza os itens horizontalmente */
+  justify-content: center; /* Centraliza os itens verticalmente */
+  width: 61%;
+  margin: 0 auto; /* Centraliza horizontalmente */
+  height: 100vh; /* Ajuste a altura conforme necessário */
+}
+.signup-section form {
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-section label,
+.signup-section input {
+  margin: 1px 0;
+}
+
+.signup-button button {
+  border-radius: 100px;
+  height: 43px;
+  width: 150px;
+  font-size: 18px;
+  border: 1px solid #FFFFFF;
+  background-color: #51B89E;
+  color: #FFFFFF;
+  font-weight: 300; 
+}
+
+.form-options-container{
+  display: flex;
+  margin-top: 5px;
+}
+.signup-button button:hover {
+  background-color: #0C7265;
+}
+
+.login-button button{
+  height: 43px;
+  width: 150px;
+  border-radius: 100px;
+  font-size: 18px;
+  border: 1px solid #51B89E;
+  background-color: #FFFFFF;
+  color: #51B89E;
+  font-weight: 300; 
+}
+.login-button button:hover{
+  background-color: #0C7265;
+  color: #FFFFFF;
+  border: 1px solid #0C7265;
+}
+.logo-img {
+  width: 38%;
+  height: 12%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+  
+.logo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.signup-title{
+  color: #DA7E6C;
+  font-weight: 400;
+  margin-top: 5px;
+}
+
+.signup-label{
+  color:#0C7265;
+  font-size: 11px;
+  font-weight: 800;
+  align-content: end;
+  padding: 0;
+  margin-right: 5px;
+}
+
+.form-text-input-container {
+  display: flex;
+  gap: 30px;
+}
+
+.form-text-input-container-div {
+ margin-top: 20px;
+}
+
+/* Estilização dos botões */
+.buttons-container {
+  width: 400px;
+  align-self: center;
+  margin-top: 45px;
+  display: flex;
+  justify-content: space-around;
+}

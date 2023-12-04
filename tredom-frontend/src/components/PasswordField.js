@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import EyeOpenIcon from '../assets/images/eye-open.png';
-import EyeClosedIcon from '../assets/images/eye-closed.png';
+import EyeOpenIcon from '../assets/images/view.png';
+import EyeClosedIcon from '../assets/images/hide.png';
 import '../styles/PasswordField.css';
 
 const PasswordField = () => {
@@ -24,7 +24,7 @@ const PasswordField = () => {
     <div className={`password-field ${isContainerFocused ? 'focused' : ''}`}>
       <input
         type={isPasswordVisible ? 'text' : 'password'}
-        placeholder="senha"
+        placeholder="***********"
         className='password-input'
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}

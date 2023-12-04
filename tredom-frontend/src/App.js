@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
-import SignUp from './pages/SignUp';
+import SignUp1 from './pages/SignUp1';
+import SignUp2 from './pages/SignUp2';
 import ForgotMyPassword from './pages/ForgotMyPassword';
 
 export default function App() {
@@ -10,7 +11,8 @@ export default function App() {
         <Routes>
           <Route index element={<Login />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signup" element={<SignUp1 />} />
+          <Route path="/signup2" element={<SignUp2 />} />
           <Route path="/forgotmypassword" element={<ForgotMyPassword />} />
         </Routes>
       </BrowserRouter>

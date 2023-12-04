@@ -42,13 +42,13 @@ const Login = () => {
         </div>
         <div className='login-form'>
           <form onSubmit={handleLogin}>
-          <input type="email" id="email" name="email" required className='email-input' placeholder="e-mail" />
-          <PasswordField/>
-          <div className='forgot-password-link' onClick={handleRedirectForgotPassword}>
-            esqueci minha senha
-          </div>
-          <div className='login-section-button'>
-            <button type="submit">Entrar</button>
+            <input type="email" id="email" name="email" required className='email-input' placeholder="e-mail" />
+            <PasswordField/>
+            <div className='forgot-password-link' onClick={handleRedirectForgotPassword}>
+              esqueci minha senha
+            </div>
+            <div className='login-section-button'>
+              <button type="submit">Entrar</button>
           </div>
           </form>
         </div>
