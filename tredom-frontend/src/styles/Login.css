@@ -164,3 +164,7 @@ object-fit: contain; /* Mantém a proporção da imagem */
 .forgot-password-link:hover{
     color:#51B89E;
 }
+
+.form-text-input-container-div {
+  margin-top: 20px;
+ }

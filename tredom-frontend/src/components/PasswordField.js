@@ -3,7 +3,7 @@ import EyeOpenIcon from '../assets/images/view.png';
 import EyeClosedIcon from '../assets/images/hide.png';
 import '../styles/PasswordField.css';
 
-const PasswordField = () => {
+const PasswordField = ({ value, onChange }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -20,6 +20,10 @@ const PasswordField = () => {
     setIsContainerFocused(false);
   };
 
+  const handleInputChange = (e) => {
+    onChange(e.target.value);
+  };
+
   return (
     <div className={`password-field ${isContainerFocused ? 'focused' : ''}`}>
       <input
@@ -28,14 +32,16 @@ const PasswordField = () => {
         className='password-input'
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
+        required
+        value={value}
+        onChange={handleInputChange}
       />
-        <img
-          src={isPasswordVisible ? EyeOpenIcon : EyeClosedIcon}
-          alt="Ícone de visualização de senha"
-          className="eye-img"
-          onClick={togglePasswordVisibility}
-        />
-
+      <img
+        src={isPasswordVisible ? EyeOpenIcon : EyeClosedIcon}
+        alt="Ícone de visualização de senha"
+        className="eye-img"
+        onClick={togglePasswordVisibility}
+      />
     </div>
   );
 };
