@@ -3,6 +3,8 @@ import logo from '../assets/images/logo.png';
 import PasswordField from "../components/PasswordField"
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
+// import Cookies from 'js-cookie';
+
 
 const Login = () => {
 
@@ -10,7 +12,7 @@ const Login = () => {
     email: '',
     password: ''
   });
-
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
   const handleRedirectForgotPassword = () => {
     navigate('/esqueci-minha-senha');
@@ -23,7 +25,7 @@ const Login = () => {
     e.preventDefault();
   
     try {
-      const response = await fetch('http://127.0.0.1:8000/login', {
+      const response = await fetch('http://127.0.0.1:5000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -33,22 +35,22 @@ const Login = () => {
   
       if (response.ok) {
         const data = await response.json();
-        // Supondo que o token retornado esteja na propriedade "token" do objeto retornado
-        const token = data.token;
-  
-        // Salvar o token em localStorage ou em um estado do seu aplicativo para uso posterior
-        localStorage.setItem('token', token);
-  
-        alert('Login realizado com sucesso!');
-        // Redirecionar para a página após o login
-        // Substitua '/dashboard' pelo caminho desejado após o login
-        navigate('/dashboard');
+        const token = data.access_token;
+        localStorage.setItem('jwt', token);
+        navigate('/meus-pacientes');
       } else {
         const errorData = await response.json();
-        alert('Falha no login: ' + errorData.message);
+
+        if (errorData.message === 'Invalid credentials.'){
+          setErrorMessage('E-mail ou senha inválidos.');
+        }
+        else {
+          setErrorMessage('Erro. Tente novamente.');
+        }
       }
     } catch (error) {
       console.error('Erro:', error);
+      setErrorMessage('Erro. Tente novamente.');
     }
   };
 
@@ -80,7 +82,8 @@ const Login = () => {
           <img src={logo} alt="Logo" className="logo-image" />
         </div>
         <div className='login-title'>
-          <h2>Login</h2> 
+          <h2>Login</h2>
+          <div className='error-message'>{errorMessage}</div>
         </div>
         <div className='login-form'>
           <form onSubmit={handleLogin}>

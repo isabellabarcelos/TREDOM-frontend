@@ -144,11 +144,17 @@ height: 100%;
 object-fit: contain; /* Mantém a proporção da imagem */
 }
 
-.login-title{
-    color: #DA7E6C;
-    font-weight: 400;
-    margin-top: -20px;
+.login-title {
+  color: #DA7E6C;
+  font-weight: 400;
+  margin-top: -20px;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
+
 
 .forgot-password-link{
     color:#0C7265;
@@ -168,3 +174,16 @@ object-fit: contain; /* Mantém a proporção da imagem */
 .form-text-input-container-div {
   margin-top: 20px;
  }
+
+.error-message{
+  color:rgba(255, 25, 25, 0.918);
+  font-size: 11px;
+  font-weight: 600;
+  align-content: end;
+  padding: 0;
+  text-align: right;
+  width: fit-content;
+  align-self: flex-end;
+  /* margin-top: -10px; */
+  margin-bottom: -15px;
+}

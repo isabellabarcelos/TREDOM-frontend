@@ -7,6 +7,7 @@ const SignUpProfessional = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const [errorMessage, setErrorMessage] = useState('');
   const [formData, setFormData] = useState({
     email: '',
     fullName: '',
@@ -56,14 +57,26 @@ const SignUpProfessional = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    const registerProfessional  = {
+      "email": formData.email,
+      "password": formData.password,
+      "profile_type": 'professional',
+      "professional": {
+        "name": formData.fullName,
+        "birthday": formData.date,
+        "location": formData.city,
+        "specialization": formData.medicalspecialty,
+        "medical_register": formData.medicalregister,
+      }
+    };
     
     try {
-      const response = await fetch('http://127.0.0.1:8000/finalize-registration', {
+      const response = await fetch('http://127.0.0.1:5000/finish-register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(registerProfessional),
       });
   
       if (response.ok) {
@@ -71,10 +84,25 @@ const SignUpProfessional = () => {
           navigate('/login');
       } else {
         const errorData = await response.json();
-        alert('Request failed: ' + errorData.message);
+        if (errorData.message === 'All fields are required.'){
+          setErrorMessage('Preencha todos os campos.');
+        }
+        else if (errorData.message === 'non_field_errors: city must contain only letters.'){
+          setErrorMessage('Município precisa conter apenas letras.');
+        }
+        else if (errorData.message === 'non_field_errors: medicalspecialty must contain only letters.'){
+          setErrorMessage('Especialidade médica precisa conter apenas letras.');
+        }
+        else if (errorData.message === 'non_field_errors: The provided date cannot be in the future.'){
+          setErrorMessage('A data de nascimento inválida.');
+        }
+        else {
+          setErrorMessage('Erro. Tente novamente.');
+        }
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Erro:', error);
+      setErrorMessage('Erro. Tente novamente.');
     }
   };
 
@@ -85,7 +113,8 @@ const SignUpProfessional = () => {
           <img src={logo} alt="Logo" className="logo-image" />
         </div>
         <div className='signup-title'>
-          <h2>Crie sua conta</h2> 
+          <h2>Crie sua conta</h2>
+          <div className='error-message'>{errorMessage}</div>
         </div>
         <div className='signup-form'>
           <form>

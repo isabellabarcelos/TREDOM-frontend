@@ -8,6 +8,7 @@ import OptionField from '../components/OptionField';
 const SignUp = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [errorMessage, setErrorMessage] = useState('');
   const [formData, setFormData] = useState({
     email: '',
     fullName: '',
@@ -55,16 +56,22 @@ const SignUp = () => {
 
   const handleRedirectNext = async (e) => {
     e.preventDefault();
+    const verifyData = {
+      "email": formData.email,
+      "password": formData.password,
+      "profile_type": formData.profileType === 'Profissional da Saúde' ? 'professional' : 'patient',
+      "confirm_password": formData.confirmPassword,
+      "name":  formData.fullName
+    };
     
     try {
-      const response = await fetch('http://127.0.0.1:8000/registration-first-step', {
+      const response = await fetch('http://127.0.0.1:5000/init-register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(verifyData),
       });
-  
       if (response.ok) {
         if (formData.profileType === 'Profissional da Saúde') {
           navigate('/cadastro-profissional', { state: formData });
@@ -73,10 +80,28 @@ const SignUp = () => {
         }
       } else {
         const errorData = await response.json();
-        alert('Request failed: ' + errorData.message);
+        if (errorData.message === 'All fields are required.'){
+          setErrorMessage('Preencha todos os campos.');
+        }
+        else if (errorData.message === "Password and confirm password do not match."){
+          setErrorMessage('As senhas não coincidem.');
+        }
+        else if (errorData.message === 'Password must be at least 6 characters long.'){
+          setErrorMessage('A senha precisa conter pelo menos 6 caracteres.');
+        }
+        else if (errorData.message === 'Invalid email format.'){
+          setErrorMessage('Formato de e-mail inválido.');
+        }
+        else if (errorData.message === 'A user with that email already exists.'){
+          setErrorMessage('E-mail já cadastrado. Realize seu login!');
+        }
+        else {
+          setErrorMessage('Erro. Tente novamente.');
+        }
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Erro:', error);
+      setErrorMessage('Erro. Tente novamente.');
     }
   };
   
@@ -87,7 +112,8 @@ const SignUp = () => {
           <img src={logo} alt="Logo" className="logo-image" />
         </div>
         <div className='signup-title'>
-          <h2>Crie sua conta</h2> 
+          <h2>Crie sua conta</h2>
+          <div className='error-message'>{errorMessage}</div>
         </div>
         <div className='signup-form'>
           <form>
@@ -96,7 +122,7 @@ const SignUp = () => {
             option1="Profissional da Saúde"
             option2="Paciente"
             onChange={(value) => handleInputChange({ target: { name: 'profileType', value } })}
-            value={formData.profileType} // Passando o valor para o OptionField
+            value={formData.profileType}
           />
             <div className='form-text-input-container'>
               <div>

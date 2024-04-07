@@ -1,0 +1,191 @@
+/* MyPatients.css */
+
+.patients-container {
+display: flex;
+}
+
+.new-patient,
+.pending-requests,
+.my-patients {
+flex: 1;
+background-color: #fff;
+border-radius: 10px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+margin-top: 10px;    /* Top: 10px */
+
+}
+.new-patient{
+padding: 20px;
+height: 85px;
+margin-right: 5px;  /* Right: 30px */
+margin-bottom: 0;    /* Bottom: 0 */
+margin-left: 60px
+}
+
+.my-patients {
+    margin-right: 60px;  /* Right: 30px */
+    margin-bottom: 0;    /* Bottom: 0 */
+    margin-left: 60px;
+    padding: 20px;
+}
+
+.pending-requests{
+height: 85px;
+margin-right: 60px;  /* Right: 30px */
+margin-bottom: 0;    /* Bottom: 0 */
+margin-left: 5px;
+padding-top: 20px;
+padding-bottom: 20px;
+padding-left: 20px;
+padding-right: 12px;
+}
+
+.new-patient-form{
+display: flex;
+flex-direction: row;
+align-items: center;
+gap:30px;
+height: 20px;
+margin-top: 20px;
+}
+
+.new-patient h3,
+.my-patients h3 {
+margin-top: 0;
+padding-bottom: 5px;
+margin-bottom: 0;
+}
+.pending-requests h5 {
+margin-top: 0;
+padding-bottom: 5px;
+margin-bottom: 0;
+}
+
+.new-patient input {
+    width: 60%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1.5px solid #c6c6c6; /* Adicionando uma borda simples cinza claro */
+    border-radius: 15px;
+    font-family: inherit; /* Herda a fonte da página */
+    color: #6f6e6e; /* Define a cor do texto como cinza */
+    font-weight: 500;
+  }
+.new-patient input:focus {
+    border: 2px solid #0C7265; /* Cor da borda quando focado */
+    /* Outros estilos que você deseja aplicar quando o input está focado */
+}
+  
+
+.new-patient button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    width: 150px;
+    background-color: #51B89E;
+    color: #fff;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    font-weight: 600;
+    gap: 15px;
+    font-size: 15px;
+}
+
+.new-patient button:hover {
+    background-color: #0C7265;
+}
+
+.pending-requests ul {
+list-style-type: none;
+padding: 0;
+}
+
+.pending-requests li {
+margin-bottom: 10px;
+}
+
+.my-patients table {
+width: 100%;
+border-collapse: collapse;
+}
+
+.my-patients th,
+.my-patients td {
+border: 1px solid #ddd;
+padding: 8px;
+text-align: left;
+}
+
+.my-patients th {
+background-color: #f2f2f2;
+}
+
+.my-patients span {
+cursor: pointer;
+}
+
+.table-container {
+    overflow-y: scroll; /* Adiciona uma barra de rolagem vertical quando necessário */
+    max-height: 70px; /* Defina a altura máxima desejada */
+}
+.table-container2 {
+    overflow-y: scroll; /* Adiciona uma barra de rolagem vertical quando necessário */
+    max-height: 300px; /* Defina a altura máxima desejada */
+}
+  
+.patient-table {
+border-collapse: collapse;
+width: 100%;
+font-size: 12px; /* Tamanho da fonte menor */
+}
+
+.patient-table td {
+border-top: 1px solid hsl(0, 0%, 87%);
+border-left: none;
+border-right: none;
+padding: 5px;
+color: #6f6e6e; /* Cor do texto cinza */
+}
+
+.patient-table th {
+   background-color: #FFFFFF; /* Cor do texto cinza */
+   border: none;
+}
+/* Opcional: Remover o espaçamento superior da tabela */
+.patient-table tbody {
+display: table-row-group;
+vertical-align: middle;
+border-color: inherit;
+}
+
+.icon-image{
+    height: 15px;
+    width: 15px;
+}
+
+::-webkit-scrollbar {
+    width: 7px;
+  }
+  
+::-webkit-scrollbar-thumb {
+background-color: #d5d5d5;
+border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+background-color: #f1f1f1;
+}
+
+.actions a {
+    color: #0C7265;
+    text-decoration: none;
+    padding: 1px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+.actions a:hover {
+background-color: #F5F5F5;
+}
