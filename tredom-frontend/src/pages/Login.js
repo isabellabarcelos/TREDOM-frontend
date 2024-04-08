@@ -41,10 +41,11 @@ const Login = () => {
       } else {
         const errorData = await response.json();
 
-        if (errorData.message === 'Invalid credentials.'){
+        if (errorData.message === 'Invalid credentials.') {
           setErrorMessage('E-mail ou senha inválidos.');
-        }
-        else {
+        } else if (errorData.message === 'Invalid email format.') {
+          setErrorMessage('Formato de e-mail inválido.');
+        } else {
           setErrorMessage('Erro. Tente novamente.');
         }
       }

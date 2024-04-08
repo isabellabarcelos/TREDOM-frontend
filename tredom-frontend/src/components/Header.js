@@ -12,7 +12,6 @@ const Header = () => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    console.log('Bearer ' + localStorage.getItem('jwt'))
     try {
       const response = await fetch('http://127.0.0.1:5000/logout', {
         method: 'POST',

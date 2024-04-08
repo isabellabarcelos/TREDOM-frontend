@@ -1,5 +1,5 @@
 // MyPatients.js
-import React, { useEffect, useState } from 'react';
+import React, {useState } from 'react';
 import Header from '../components/Header';
 import '../styles/MyPatients.css'; 
 import add from '../assets/images/add.png';
@@ -11,12 +11,11 @@ import { useNavigate } from 'react-router-dom';
 const MyPatients = () => {
 
   const [newPatientEmail, setNewPatientEmail] = useState('');
-  const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
 
   const handleAddPatient = async () => {
     const AddPatientData = {
-      patient_email: newPatientEmail,
+      email: newPatientEmail,
     };
   
     try {
@@ -31,39 +30,29 @@ const MyPatients = () => {
   
       if (response.ok) {
         alert('Solicitação enviada com!');
-        // Limpe o campo de busca após adicionar
         setNewPatientEmail('');
       } else {
         const errorData = await response.json();
         console.error('Erro na requisição:', errorData);
-        alert('Erro ao enviar solicitação!');
+        
+        let errorMessage = 'Erro ao enviar solicitação!';
+      
+        if (errorData.message === 'Invalid email format.') {
+          errorMessage = 'Formato de e-mail inválido.';
+        } else if (errorData.message === 'Patient not found.') {
+          errorMessage = 'Paciente não encontrado.';
+        } else if (errorData.message === 'Relationship already exists.') {
+          errorMessage = 'Solicitação já enviada.';
+        }
+      
+        alert(errorMessage);
       }
+      
     } catch (error) {
       console.error('Erro na requisição:', error);
       navigate('/login');
     }
   };
-  
-  useEffect(() => {
-    // Recupere o token do localStorage ou do estado global
-    const token = localStorage.getItem('jwt');
-
-    if (token) {
-      try {
-        // Tente decodificar o token
-        const decodedToken = JSON.parse(atob(token.split('.')[1]));
-
-        // Obtém o ID do usuário do token decodificado
-        const userId = decodedToken.user_id;
-
-        // Armazena o ID do usuário no estado
-        setUserId(userId);
-      } catch (error) {
-        console.error('Erro ao decodificar o token:', error);
-        // Trate o erro de decodificação aqui, se necessário
-      }
-    }
-  }, []);
 
   return (
     <div>
