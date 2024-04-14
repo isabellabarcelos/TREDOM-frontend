@@ -1,5 +1,5 @@
 // MyPatients.js
-import React, {useState } from 'react';
+import React, {useState, useEffect} from 'react';
 import Header from '../components/Header';
 import '../styles/MyPatients.css'; 
 import add from '../assets/images/add.png';
@@ -10,8 +10,51 @@ import { useNavigate } from 'react-router-dom';
 
 const MyPatients = () => {
 
-  const [newPatientEmail, setNewPatientEmail] = useState('');
   const navigate = useNavigate();
+  const [newPatientEmail, setNewPatientEmail] = useState('');
+  const [pendingRequests, setPendingRequests] = useState([]);
+  const [myPatients, setMyPatients] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Requisição para obter as solicitações pendentes
+        const pendingResponse = await fetch('http://127.0.0.1:5000/request', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+          },
+        });
+        if (pendingResponse.ok) {
+          const pendingData = await pendingResponse.json();
+          setPendingRequests(pendingData.patients);
+          console.log(pendingData.patients)
+        } else {
+          console.error('Erro ao obter solicitações pendentes:', pendingResponse.statusText);
+        }
+
+        // Requisição para obter os pacientes
+        const patientsResponse = await fetch('http://127.0.0.1:5000/relation', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+          },
+        });
+        if (patientsResponse.ok) {
+          const patientsData = await patientsResponse.json();
+          setMyPatients(patientsData.patients);
+        } else {
+          console.error('Erro ao obter pacientes:', patientsResponse.statusText);
+        }
+      } catch (error) {
+        console.error('Erro ao fazer requisições:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleAddPatient = async () => {
     const AddPatientData = {
@@ -29,8 +72,9 @@ const MyPatients = () => {
       });
   
       if (response.ok) {
-        alert('Solicitação enviada com!');
+        alert('Solicitação enviada com sucesso!');
         setNewPatientEmail('');
+        window.location.reload()
       } else {
         const errorData = await response.json();
         console.error('Erro na requisição:', errorData);
@@ -78,79 +122,44 @@ const MyPatients = () => {
         <div className="table-container">
           <table className="patient-table">
             <tbody>
-              {/* Linha 1 */}
-              <tr>
-                <td>Nome do Paciente 1</td>
-                <td>
-                  <div className='actions'>
-                    <a href="/notifications">
-                      <img src={trash} alt="Logo" className="icon-image" />
-                    </a>
-                  </div>
-                </td>
-              </tr>
-
-              {/* Linha 2 */}
-              <tr>
-                <td>Nome do Paciente 2</td>
-                <td>
-                  <div className='actions'>
+              {pendingRequests.map((request, index) => (
+                <tr key={index}>
+                  <td>{request.email}</td>
+                  <td>
+                    <div className='actions'>
                       <a href="/notifications">
                         <img src={trash} alt="Logo" className="icon-image" />
                       </a>
                     </div>
-                </td>
-              </tr>
-
-              {/* Adicione mais linhas conforme necessário */}
-              {/* Linha 2 */}
-              <tr>
-                <td>Nome do Paciente 2</td>
-                <td>
-                  <div className='actions'>
-                    <a href="/notifications">
-                      <img src={trash} alt="Logo" className="icon-image" />
-                    </a>
-                  </div>
-                </td>
-              </tr>
-              {/* Linha 2 */}
-              <tr>
-                <td>Nome do Paciente 2</td>
-                <td>
-                  <div className='actions'>
-                    <a href="/notifications">
-                      <img src={trash} alt="Logo" className="icon-image" />
-                    </a>
-                  </div>
-                </td>
-              </tr>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
-
       </div>
     </div>
 
-    <div className="my-patients">
-        <h3>Meus Pacientes</h3>
-      <div className="table-container2">
-        <table  className="patient-table">
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>Data de Nascimento</th>
-              <th>Configuração</th>
-              <th>Última Configuração</th>
-              <th>Opções</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Nome do Paciente 1</td>
-              <td>01/01/1990</td>
-              <td>Configuração 1</td>
-              <td>01/01/2022</td>
+  <div className="my-patients">
+    <h3>Meus Pacientes</h3>
+    <div className="table-container2">
+      <table className="patient-table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Data de Nascimento</th>
+            <th>Gênero</th>
+            <th>Município</th>
+            <th>Opções</th>
+          </tr>
+        </thead>
+        <tbody>
+          {myPatients.map((patient, index) => (
+            <tr key={index}>
+              <td>{patient.name}</td>
+              <td>{patient.email}</td>
+              <td>{patient.gender}</td>
+              <td>{patient.location}</td>
               <td>
                 <div className='actions'>
                   <a href="/notifications">
@@ -159,220 +168,13 @@ const MyPatients = () => {
                 </div>
               </td>
             </tr>
-            <tr>
-              <td>Nome do Paciente 2</td>
-              <td>02/02/1995</td>
-              <td>Configuração 2</td>
-              <td>02/02/2022</td>
-              <td>
-                <div className='actions'>
-                  <a href="/notifications">
-                    <img src={more} alt="Logo" className="icon-image" />
-                  </a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Nome do Paciente 2</td>
-              <td>02/02/1995</td>
-              <td>Configuração 2</td>
-              <td>02/02/2022</td>
-              <td>
-                <div className='actions'>
-                  <a href="/notifications">
-                    <img src={more} alt="Logo" className="icon-image" />
-                  </a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Nome do Paciente 2</td>
-              <td>02/02/1995</td>
-              <td>Configuração 2</td>
-              <td>02/02/2022</td>
-              <td>
-                <div className='actions'>
-                  <a href="/notifications">
-                    <img src={more} alt="Logo" className="icon-image" />
-                  </a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Nome do Paciente 2</td>
-              <td>02/02/1995</td>
-              <td>Configuração 2</td>
-              <td>02/02/2022</td>
-              <td>
-                <div className='actions'>
-                  <a href="/notifications">
-                    <img src={more} alt="Logo" className="icon-image" />
-                  </a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Nome do Paciente 2</td>
-              <td>02/02/1995</td>
-              <td>Configuração 2</td>
-              <td>02/02/2022</td>
-              <td>
-                <div className='actions'>
-                  <a href="/notifications">
-                    <img src={more} alt="Logo" className="icon-image" />
-                  </a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Nome do Paciente 2</td>
-              <td>02/02/1995</td>
-              <td>Configuração 2</td>
-              <td>02/02/2022</td>
-              <td>
-                <div className='actions'>
-                  <a href="/notifications">
-                    <img src={more} alt="Logo" className="icon-image" />
-                  </a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Nome do Paciente 2</td>
-              <td>02/02/1995</td>
-              <td>Configuração 2</td>
-              <td>02/02/2022</td>
-              <td>
-                <div className='actions'>
-                  <a href="/notifications">
-                    <img src={more} alt="Logo" className="icon-image" />
-                  </a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Nome do Paciente 2</td>
-              <td>02/02/1995</td>
-              <td>Configuração 2</td>
-              <td>02/02/2022</td>
-              <td>
-                <div className='actions'>
-                  <a href="/notifications">
-                    <img src={more} alt="Logo" className="icon-image" />
-                  </a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Nome do Paciente 2</td>
-              <td>02/02/1995</td>
-              <td>Configuração 2</td>
-              <td>02/02/2022</td>
-              <td>
-                <div className='actions'>
-                  <a href="/notifications">
-                    <img src={more} alt="Logo" className="icon-image" />
-                  </a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Nome do Paciente 2</td>
-              <td>02/02/1995</td>
-              <td>Configuração 2</td>
-              <td>02/02/2022</td>
-              <td>
-                <div className='actions'>
-                  <a href="/notifications">
-                    <img src={more} alt="Logo" className="icon-image" />
-                  </a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Nome do Paciente 2</td>
-              <td>02/02/1995</td>
-              <td>Configuração 2</td>
-              <td>02/02/2022</td>
-              <td>
-                <div className='actions'>
-                  <a href="/notifications">
-                    <img src={more} alt="Logo" className="icon-image" />
-                  </a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Nome do Paciente 2</td>
-              <td>02/02/1995</td>
-              <td>Configuração 2</td>
-              <td>02/02/2022</td>
-              <td>
-                <div className='actions'>
-                  <a href="/notifications">
-                    <img src={more} alt="Logo" className="icon-image" />
-                  </a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Nome do Paciente 2</td>
-              <td>02/02/1995</td>
-              <td>Configuração 2</td>
-              <td>02/02/2022</td>
-              <td>
-                <div className='actions'>
-                  <a href="/notifications">
-                    <img src={more} alt="Logo" className="icon-image" />
-                  </a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Nome do Paciente 2</td>
-              <td>02/02/1995</td>
-              <td>Configuração 2</td>
-              <td>02/02/2022</td>
-              <td>
-                <div className='actions'>
-                  <a href="/notifications">
-                    <img src={more} alt="Logo" className="icon-image" />
-                  </a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Nome do Paciente 2</td>
-              <td>02/02/1995</td>
-              <td>Configuração 2</td>
-              <td>02/02/2022</td>
-              <td>
-                <div className='actions'>
-                  <a href="/notifications">
-                    <img src={more} alt="Logo" className="icon-image" />
-                  </a>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>Nome do Paciente 2</td>
-              <td>02/02/1995</td>
-              <td>Configuração 2</td>
-              <td>02/02/2022</td>
-              <td>
-                <div className='actions'>
-                  <a href="/notifications">
-                    <img src={more} alt="Logo" className="icon-image" />
-                  </a>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
-    </div>
+  </div>   
   </div>
+</div>
   );
 };
 
