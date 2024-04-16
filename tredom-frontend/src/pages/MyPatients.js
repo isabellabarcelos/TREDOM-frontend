@@ -14,6 +14,11 @@ const MyPatients = () => {
   const [newPatientEmail, setNewPatientEmail] = useState('');
   const [pendingRequests, setPendingRequests] = useState([]);
   const [myPatients, setMyPatients] = useState([]);
+  const [showMenu, setShowMenu] = useState(false);
+
+  const handleOpenMenu = () => {
+    setShowMenu(!showMenu); // Inverte o estado do menu ao clicar
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,6 +60,63 @@ const MyPatients = () => {
 
     fetchData();
   }, []);
+
+  const handleDeletePendingRequest = async (userId) => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/request', {
+        method: 'Delete',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+        },
+        body: JSON.stringify({"id": userId}),
+      });
+  
+      if (response.ok) {
+        alert('Solicitação deletada com sucesso!');
+        setNewPatientEmail('');
+        window.location.reload()
+      } else {
+        const errorData = await response.json();
+        console.error('Erro na requisição:', errorData);
+        let errorMessage = 'Erro ao enviar deletar solicitação!';
+        alert(errorMessage);
+      }
+      
+    } catch (error) {
+      console.error('Erro na requisição:', error);
+      navigate('/login');
+    }
+  };
+
+  const handleDeleteRelation = async (userId) => {
+    console.log(userId)
+    try {
+      const response = await fetch('http://127.0.0.1:5000/relation', {
+        method: 'Delete',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+        },
+        body: JSON.stringify({"id": userId}),
+      });
+  
+      if (response.ok) {
+        alert('Paciente deletado com sucesso!');
+        setNewPatientEmail('');
+        window.location.reload()
+      } else {
+        const errorData = await response.json();
+        console.error('Erro na requisição:', errorData);
+        let errorMessage = 'Erro ao enviar deletar solicitação!';
+        alert(errorMessage);
+      }
+      
+    } catch (error) {
+      console.error('Erro na requisição:', error);
+      navigate('/login');
+    }
+  };
 
   const handleAddPatient = async () => {
     const AddPatientData = {
@@ -127,9 +189,9 @@ const MyPatients = () => {
                   <td>{request.email}</td>
                   <td>
                     <div className='actions'>
-                      <a href="/notifications">
+                      <div onClick={() => handleDeletePendingRequest(request.user_id)}>
                         <img src={trash} alt="Logo" className="icon-image" />
-                      </a>
+                      </div>
                     </div>
                   </td>
                 </tr>
@@ -161,12 +223,15 @@ const MyPatients = () => {
               <td>{patient.gender}</td>
               <td>{patient.location}</td>
               <td>
-                <div className='actions'>
-                  <a href="/notifications">
-                    <img src={more} alt="Logo" className="icon-image" />
-                  </a>
+                <div class="dropdown">
+                  <button class="dropbtn"><img src={more} alt="Logo" className="icon-image" /></button>
+                  <div class="dropdown-content">
+                    <a href="#">Dashboard</a>
+                    <a href="#">Configurações</a>
+                    <a href="#" onClick={() => handleDeleteRelation(patient.user_id)}>Deletar</a>
+                  </div>
                 </div>
-              </td>
+            </td>
             </tr>
           ))}
         </tbody>
